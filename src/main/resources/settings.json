@@ -1,0 +1,12 @@
+{
+  "tablero": {
+    "filas": 30,
+    "columnas": 100
+  },
+  "animales": {
+    "lobo": {
+      "maxPerCell": 30
+    }
+  }
+
+}
