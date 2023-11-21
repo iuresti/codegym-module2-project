@@ -9,6 +9,8 @@ public abstract class Animal implements Runnable{
     private int alimentoNecesario;
     private int alimentoSuministrado;
 
+    private boolean comido;
+
     public Animal(int peso, int alimentoNecesario) {
         this.peso = peso;
         this.alimentoNecesario = alimentoNecesario;
@@ -32,11 +34,17 @@ public abstract class Animal implements Runnable{
     }
 
     public void run(){
-        actuar();
-        try {
-            TimeUnit.MILLISECONDS.sleep(500);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
+        while(alimentoSuministrado > 0 && !Thread.currentThread().isInterrupted() && !comido) {
+            actuar();
+            try {
+                TimeUnit.MILLISECONDS.sleep(500);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
         }
+    }
+
+    public void fuisteComido(){
+        comido = true;
     }
 }
