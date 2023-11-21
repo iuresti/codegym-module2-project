@@ -1,12 +1,15 @@
-package com.example.demo1;
+package com.example.demo1.tablero;
 
-import com.example.demo1.animals.*;
+import com.example.demo1.Restriction;
+import com.example.demo1.animals.Animal;
+import com.example.demo1.animals.Caballo;
+import com.example.demo1.animals.Conejo;
+import com.example.demo1.animals.Lobo;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class HacedorDeLuz {
-    public void hagaseLaLuz() {
+    public TableroDeSimulacion hagaseLaLuz() {
         TableroDeSimulacion tableroDeSimulacion = new TableroDeSimulacion(100, 20);
 
         for (int i = 0; i < 100; i++) {
@@ -15,12 +18,10 @@ public class HacedorDeLuz {
                 poblarPlantas(tableroDeSimulacion.get(i, j));
             }
         }
-
+        return tableroDeSimulacion;
     }
 
     private void poblarAnimales(Celda celda) {
-
-
 
 
         ThreadGroup threadGroup = new ThreadGroup("Animales");
@@ -35,25 +36,23 @@ public class HacedorDeLuz {
     private static void populateAnimal(Celda celda, ThreadGroup threadGroup, Class<? extends Animal> classAnimal) {
         Restriction restriction = classAnimal.getAnnotation(Restriction.class);
 
-        int maxPerCell = restriction.maxPerCell();
+        int maxPerCell = restriction != null ? restriction.maxPerCell() : 0;
         ThreadLocalRandom random = ThreadLocalRandom.current();
         int realCount = random.nextInt(maxPerCell);
 
-        for(int i = 0; i< realCount; i++) {
+        for (int i = 0; i < realCount; i++) {
             try {
                 Animal animal = classAnimal.getConstructor().newInstance();
                 new Thread(threadGroup, animal);
 
                 celda.add(animal);
-            } catch (InstantiationException e) {
-                throw new RuntimeException(e);
-            } catch (IllegalAccessException e) {
-                throw new RuntimeException(e);
-            } catch (InvocationTargetException e) {
-                throw new RuntimeException(e);
-            } catch (NoSuchMethodException e) {
+            } catch (ReflectiveOperationException e) {
                 throw new RuntimeException(e);
             }
         }
+    }
+
+    private void poblarPlantas(Celda celda) {
+
     }
 }

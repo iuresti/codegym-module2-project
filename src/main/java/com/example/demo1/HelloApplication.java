@@ -1,8 +1,7 @@
 package com.example.demo1;
 
-import com.example.demo1.animals.Conejo;
-import com.example.demo1.animals.Lobo;
-import com.example.demo1.animals.TableroDeSimulacion;
+import com.example.demo1.tablero.HacedorDeLuz;
+import com.example.demo1.tablero.TableroDeSimulacion;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -13,7 +12,7 @@ import java.io.IOException;
 
 public class HelloApplication extends Application {
 
-    private TableView table = new TableView();
+    private final TableView table = new TableView();
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
