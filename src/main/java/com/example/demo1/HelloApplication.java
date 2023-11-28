@@ -1,12 +1,15 @@
 package com.example.demo1;
 
-import com.example.demo1.tablero.HacedorDeLuz;
-import com.example.demo1.tablero.TableroDeSimulacion;
+import com.example.demo1.tablero.BoardMaker;
+import com.example.demo1.tablero.BoardSettings;
+import com.example.demo1.tablero.SimulationBoard;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
+
+import com.google.gson.*;
 
 import java.io.IOException;
 
@@ -25,11 +28,24 @@ public class HelloApplication extends Application {
     public static void main(String[] args) {
         //launch();
 
-        TableroDeSimulacion tableroDeSimulacion;
 
-        HacedorDeLuz hacedorDeLuz = new HacedorDeLuz();
+        // ToDo: Read BoardSettings from json file
+        BoardSettings boardSettings = new BoardSettings();
 
-        tableroDeSimulacion = hacedorDeLuz.hagaseLaLuz();
+        boardSettings.setBoard(new BoardSettings.Board());
+        boardSettings.setSimulation(new BoardSettings.Simulation());
+
+        boardSettings.getBoard().setRows(20);
+        boardSettings.getBoard().setColumns(100);
+
+        boardSettings.getSimulation().setDuration(300);
+        boardSettings.getSimulation().setStatisticsRefreshInterval(5);
+
+        // -----------------------------
+
+        BoardMaker boardMaker = new BoardMaker(boardSettings);
+
+        SimulationBoard simulationBoard = boardMaker.createWorld();
 
     }
 }

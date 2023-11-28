@@ -1,8 +1,11 @@
 package com.example.demo1.animals;
 
-public class Conejo extends Animal{
-    public Conejo() {
-        super(2, 0.45);
+import com.example.demo1.Restriction;
+
+@Restriction(maxPerCell = 140, feedingFactorDecrease = 70)
+public class Oveja extends Herbivorous {
+    public Oveja() {
+        super(70, 15);
     }
 
     @Override

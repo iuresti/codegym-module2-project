@@ -1,16 +1,22 @@
 package com.example.demo1.animals;
 
+import com.example.demo1.tablero.Cell;
+import com.example.demo1.tablero.Direction;
+
+import java.util.Map;
+import java.util.Optional;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
-public abstract class Animal implements Runnable {
-    private final int peso;
+public abstract class Animal {
+    private final double peso;
 
-    private final double alimentoNecesario;
-    private double alimentoSuministrado;
+    protected final double alimentoNecesario;
+    protected double alimentoSuministrado;
 
     private boolean comido;
 
-    public Animal(int peso, double alimentoNecesario) {
+    public Animal(double peso, double alimentoNecesario) {
         this.peso = peso;
         this.alimentoNecesario = alimentoNecesario;
     }
@@ -19,16 +25,17 @@ public abstract class Animal implements Runnable {
 
     public abstract void actuar();
 
-    public int getPeso() {
+    public double getPeso() {
         return peso;
     }
 
-    public void comer(Animal animal) {
-        if (seTeAntoja(animal)) {
-            alimentoSuministrado += animal.getPeso();
-            if (alimentoSuministrado > alimentoNecesario) {
-                alimentoSuministrado = alimentoNecesario;
-            }
+    public abstract Optional<Direction> mover(Cell cell);
+
+    protected Animal reproduce() {
+        try {
+            return this.getClass().getConstructor().newInstance();
+        } catch (ReflectiveOperationException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -45,5 +52,12 @@ public abstract class Animal implements Runnable {
 
     public void fuisteComido() {
         comido = true;
+    }
+
+    protected boolean seTeAntoja(Animal animal, Map<Class<? extends Animal>, Integer> probabilityMap) {
+        int probabilidad = probabilityMap.getOrDefault(animal.getClass(), 0);
+        ThreadLocalRandom random = ThreadLocalRandom.current();
+
+        return random.nextInt(100) < probabilidad;
     }
 }

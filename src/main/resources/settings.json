@@ -1,12 +1,10 @@
 {
-  "tablero": {
-    "filas": 30,
-    "columnas": 100
+  "board": {
+    "rows": 30,
+    "columns": 100
   },
-  "animales": {
-    "lobo": {
-      "maxPerCell": 30
-    }
+  "simulation": {
+    "duration": 5000,
+    "statisticsRefreshInterval": 5
   }
-
 }

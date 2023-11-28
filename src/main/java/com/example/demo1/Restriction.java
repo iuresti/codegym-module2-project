@@ -9,4 +9,6 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 public @interface Restriction {
     int maxPerCell() default 0;
+
+    double feedingFactorDecrease() default 20;
 }
