@@ -2,8 +2,7 @@ package com.example.demo1.animals;
 
 import com.example.demo1.Restriction;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 
 @Restriction(maxPerCell = 30)
@@ -35,6 +34,11 @@ public class Wolf extends Carnivorous {
     @Override
     public void actuar() {
 
+    }
+
+    @Override
+    public Set<Class<? extends Animal>> animalsToEat() {
+        return probabilityMap.keySet();
     }
 }
 

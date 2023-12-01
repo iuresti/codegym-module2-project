@@ -1,15 +1,13 @@
 package com.example.demo1.animals;
 
-import com.example.demo1.Restriction;
 import com.example.demo1.tablero.Cell;
 import com.example.demo1.tablero.Direction;
 
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 
-public abstract class Carnivorous extends Animal{
+public abstract class Carnivorous extends Animal {
     public Carnivorous(int peso, double alimentoNecesario) {
         super(peso, alimentoNecesario);
     }
@@ -21,18 +19,22 @@ public abstract class Carnivorous extends Animal{
         }
     }
 
-    public Optional<Direction> mover(Cell cell) {
+    public Optional<Direction> act(Cell cell) {
 
-        List<Animal> animalsToEat = new LinkedList<>();
+        Set<Class<? extends Animal>> animalsToEat = animalsToEat(); //template method
 
-        if (alimentoSuministrado < alimentoNecesario ) {
+        if (alimentoSuministrado < alimentoNecesario) {
 
-            cell.getAnyOf(animalsToEat).ifPresent(animal -> {
-                comer(animal);
-                cell.remove(animal);
-            });
+            Optional<Animal> animal = cell.getAnyOf(animalsToEat, this);
 
-            return Optional.empty();
+            if (animal.isPresent()) {
+                comer(animal.get());
+
+                return Optional.empty();
+            } else {
+                return getDirection();
+            }
+
         }
 
         if (cell.getAnimalsCount(this.getClass()) > 0) {
@@ -41,6 +43,10 @@ public abstract class Carnivorous extends Animal{
             return Optional.empty();
         }
 
+        return getDirection();
+    }
+
+    private static Optional<Direction> getDirection() {
         return switch (ThreadLocalRandom.current().nextInt(4)) {
             case 0 -> Optional.of(Direction.UP);
             case 1 -> Optional.of(Direction.DOWN);

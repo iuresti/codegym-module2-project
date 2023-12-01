@@ -3,8 +3,7 @@ package com.example.demo1.animals;
 import com.example.demo1.tablero.Cell;
 import com.example.demo1.tablero.Direction;
 
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
@@ -25,11 +24,15 @@ public abstract class Animal {
 
     public abstract void actuar();
 
+    public Set<Class<? extends Animal>> animalsToEat(){
+        return Collections.emptySet();
+    }
+
     public double getPeso() {
         return peso;
     }
 
-    public abstract Optional<Direction> mover(Cell cell);
+    public abstract Optional<Direction> act(Cell cell);
 
     protected Animal reproduce() {
         try {
@@ -59,5 +62,13 @@ public abstract class Animal {
         ThreadLocalRandom random = ThreadLocalRandom.current();
 
         return random.nextInt(100) < probabilidad;
+    }
+
+    public double getAlimentoSuministrado() {
+        return alimentoSuministrado;
+    }
+
+    public void setAlimentoSuministrado(double alimentoSuministrado) {
+        this.alimentoSuministrado = alimentoSuministrado;
     }
 }

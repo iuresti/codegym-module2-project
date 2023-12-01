@@ -26,7 +26,7 @@ public abstract class Herbivorous extends Animal {
 
     }
 
-    public Optional<Direction> mover(Cell cell) {
+    public Optional<Direction> act(Cell cell) {
 
         if (alimentoSuministrado < alimentoNecesario && cell.getPlantsCount() > 0) {
             double leftFood = comer(cell.getPlantsCount());

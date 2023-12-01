@@ -15,10 +15,10 @@ public class BoardMaker {
     }
 
     public SimulationBoard createWorld() {
-        SimulationBoard simulationBoard = new SimulationBoard(100, 20);
+        SimulationBoard simulationBoard = new SimulationBoard(boardSettings.getBoard().getRows(), boardSettings.getBoard().getColumns());
 
-        for (int i = 0; i < 100; i++) {
-            for (int j = 0; j < 20; j++) {
+        for (int i = 0; i < boardSettings.getBoard().getRows(); i++) {
+            for (int j = 0; j < boardSettings.getBoard().getColumns(); j++) {
                 poblarPlantas(simulationBoard.get(i, j));
                 poblarAnimales(simulationBoard.get(i, j));
             }
